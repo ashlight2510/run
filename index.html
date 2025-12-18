@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
   <head>
     <meta charset="utf-8" />
@@ -9,11 +9,17 @@
   <body>
     <main class="wrap">
       <header class="topbar">
-        <div class="title">Dino-ish Runner</div>
+        <div class="title">토스산타 빡쳐서 만든 게임</div>
         <div class="hud">
-          <div class="hud-item"><span class="label">SCORE</span> <span id="score">0</span></div>
-          <div class="hud-item"><span class="label">BEST</span> <span id="best">0</span></div>
-          <div class="hud-item"><span class="label">SPEED</span> <span id="speed">1.00</span></div>
+          <div class="hud-item">
+            <span class="label">SCORE</span> <span id="score">0</span>
+          </div>
+          <div class="hud-item">
+            <span class="label">BEST</span> <span id="best">0</span>
+          </div>
+          <div class="hud-item">
+            <span class="label">SPEED</span> <span id="speed">1.00</span>
+          </div>
         </div>
       </header>
 
@@ -28,16 +34,79 @@
               <div><kbd>↓</kbd> 빠르게 내려오기</div>
               <div><kbd>R</kbd> 재시작</div>
             </div>
+            <div class="leaderboard">
+              <div class="leaderboard-head">
+                <div class="leaderboard-title">랭킹 (Top 10)</div>
+                <div class="tabs" role="tablist" aria-label="랭킹 기간 선택">
+                  <button
+                    class="tab active"
+                    id="tabAll"
+                    type="button"
+                    role="tab"
+                    aria-selected="true"
+                  >
+                    전체
+                  </button>
+                  <button
+                    class="tab"
+                    id="tabDaily"
+                    type="button"
+                    role="tab"
+                    aria-selected="false"
+                  >
+                    일일
+                  </button>
+                  <button
+                    class="tab"
+                    id="tabWeekly"
+                    type="button"
+                    role="tab"
+                    aria-selected="false"
+                  >
+                    주간
+                  </button>
+                  <button id="refreshBoard" class="btn" type="button">
+                    새로고침
+                  </button>
+                </div>
+              </div>
+              <ol id="board" class="board" aria-label="랭킹 목록"></ol>
+              <div class="submit-row">
+                <input
+                  id="playerName"
+                  class="input"
+                  maxlength="16"
+                  placeholder="닉네임 (최대 16자)"
+                />
+                <button id="submitScore" class="btn primary" type="button">
+                  점수 등록
+                </button>
+              </div>
+              <div id="netHint" class="net-hint"></div>
+            </div>
           </div>
         </div>
       </section>
 
       <footer class="footer">
-        <span>오프라인 공룡게임 느낌의 간단 러너 (Canvas)</span>
+        <span>토스산타 빡쳐서 만든 게임</span>
       </footer>
     </main>
-
+    <a
+      class="cta-button"
+      href="https://funnyfunny.cloud/"
+      target="_blank"
+      rel="noopener noreferrer"
+      role="button"
+      aria-label="다른 서비스 보기 (새 창)"
+    >
+      <span class="cta-label">다른 서비스 보기</span>
+      <span aria-hidden="true" class="cta-arrow">↗</span>
+    </a>
+    <!-- Supabase 설정(사용자 입력) -->
+    <script src="./supabase.config.js"></script>
+    <!-- Supabase JS (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="./game.js"></script>
   </body>
 </html>
-
