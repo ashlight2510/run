@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dino-ish Runner (HTML)</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="wrap">
+      <header class="topbar">
+        <div class="title">Dino-ish Runner</div>
+        <div class="hud">
+          <div class="hud-item"><span class="label">SCORE</span> <span id="score">0</span></div>
+          <div class="hud-item"><span class="label">BEST</span> <span id="best">0</span></div>
+          <div class="hud-item"><span class="label">SPEED</span> <span id="speed">1.00</span></div>
+        </div>
+      </header>
+
+      <section class="stage" aria-label="게임 화면">
+        <canvas id="game" width="900" height="260"></canvas>
+        <div id="overlay" class="overlay" role="status" aria-live="polite">
+          <div class="overlay-card">
+            <div class="overlay-title" id="overlayTitle">대기 중</div>
+            <div class="overlay-sub" id="overlaySub">Space / ↑ 로 시작</div>
+            <div class="overlay-help">
+              <div><kbd>Space</kbd> / <kbd>↑</kbd> 점프</div>
+              <div><kbd>↓</kbd> 빠르게 내려오기</div>
+              <div><kbd>R</kbd> 재시작</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span>오프라인 공룡게임 느낌의 간단 러너 (Canvas)</span>
+      </footer>
+    </main>
+
+    <script src="./game.js"></script>
+  </body>
+</html>
+
