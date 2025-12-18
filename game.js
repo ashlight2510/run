@@ -17,6 +17,10 @@
   const $tabAll = document.getElementById("tabAll");
   const $tabDaily = document.getElementById("tabDaily");
   const $tabWeekly = document.getElementById("tabWeekly");
+  const $btnJump = document.getElementById("btnJump");
+  const $btnDuck = document.getElementById("btnDuck");
+  const $startBtn = document.getElementById("startBtn");
+  const $startHint = document.getElementById("startHint");
 
   const W = canvas.width;
   const H = canvas.height;
@@ -260,7 +264,8 @@
     player.onGround = true;
     player.ducking = false;
     obstacles = [];
-    setOverlay(true, "대기 중", "Space / ↑ 로 시작");
+    setOverlay(true, "대기 중", "탭/Space/↑ 로 시작");
+    setStartUiMode("ready");
     syncHud();
     draw(0);
     setHint("");
@@ -272,6 +277,7 @@
     state.gameOver = false;
     state.tPrev = now();
     setOverlay(false);
+    setStartUiMode("running");
     requestAnimationFrame(loop);
   }
 
@@ -418,7 +424,21 @@
       writeBest(best);
     }
     syncHud();
-    setOverlay(true, "게임 오버", "R 로 재시작 (또는 Space / ↑)");
+    setOverlay(true, "게임 오버", "탭/Space/↑ 로 다시하기");
+    setStartUiMode("gameover");
+  }
+
+  function setStartUiMode(mode) {
+    // mode: "ready" | "running" | "gameover"
+    const submitRow = document.querySelector(".submit-row");
+    if (submitRow) submitRow.style.display = mode === "gameover" ? "grid" : "none";
+    if ($startBtn) $startBtn.textContent = mode === "gameover" ? "다시하기" : "시작하기";
+    if ($startHint) {
+      $startHint.textContent =
+        mode === "gameover"
+          ? "점수 등록은 죽었을 때만 보여요"
+          : "모바일은 화면 탭으로도 시작/점프할 수 있어요";
+    }
   }
 
   function draw(t) {
@@ -520,10 +540,39 @@
   });
 
   // 클릭/터치로도 점프
-  canvas.addEventListener("pointerdown", () => {
+  canvas.addEventListener("pointerdown", (e) => {
+    // 모바일에서 스크롤/더블탭 줌 방지
+    e.preventDefault?.();
     if (state.gameOver) restart();
     else jump();
   });
+
+  // 오버레이 시작 버튼: 첫 시작은 start(), 게임오버면 restart()
+  $startBtn?.addEventListener("click", () => {
+    if (state.gameOver) restart();
+    else start();
+  });
+
+  // 모바일 버튼: 점프
+  $btnJump?.addEventListener("pointerdown", (e) => {
+    e.preventDefault?.();
+    if (state.gameOver) restart();
+    else jump();
+  });
+
+  // 모바일 버튼: 웅크리기(누르고 있는 동안)
+  const duckOn = (e) => {
+    e?.preventDefault?.();
+    setDuck(true);
+  };
+  const duckOff = (e) => {
+    e?.preventDefault?.();
+    setDuck(false);
+  };
+  $btnDuck?.addEventListener("pointerdown", duckOn);
+  $btnDuck?.addEventListener("pointerup", duckOff);
+  $btnDuck?.addEventListener("pointercancel", duckOff);
+  $btnDuck?.addEventListener("pointerleave", duckOff);
 
   // 리더보드 UI 이벤트
   if ($playerName) {

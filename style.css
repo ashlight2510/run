@@ -14,6 +14,7 @@ body {
   color: var(--ink);
   background: radial-gradient(1200px 500px at 50% 0%, #ffffff, var(--bg));
 }
+body { -webkit-tap-highlight-color: transparent; }
 
 .wrap {
   min-height: 100%;
@@ -67,6 +68,7 @@ canvas {
   display: block;
   width: 100%;
   height: auto;
+  touch-action: none;
 }
 
 .overlay {
@@ -93,6 +95,27 @@ canvas {
 .overlay-sub {
   margin-top: 6px;
   color: var(--muted);
+}
+.overlay-cta{
+  margin-top: 12px;
+  display: grid;
+  gap: 8px;
+}
+.start-btn{
+  width: 100%;
+  border: 1px solid rgba(255,255,255,0.75);
+  background: linear-gradient(135deg, #c4f1f9, #a5b4fc);
+  border-radius: 16px;
+  padding: 12px 14px;
+  font-weight: 900;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: 0 14px 34px rgba(79, 70, 229, 0.18), 0 10px 24px rgba(14, 165, 233, 0.14);
+}
+.start-btn:active{ transform: translateY(1px); }
+.start-hint{
+  color: var(--muted);
+  font-size: 12px;
 }
 .overlay-help {
   margin-top: 12px;
@@ -217,6 +240,48 @@ kbd {
   padding-bottom: 6px;
 }
 
+.mobile-controls {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: max(12px, env(safe-area-inset-bottom));
+  display: none;
+  gap: 10px;
+  grid-template-columns: 1fr 1fr;
+  z-index: 60;
+  pointer-events: none;
+}
+.mc-btn {
+  pointer-events: auto;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 12px 12px;
+  text-align: left;
+  box-shadow: 0 12px 30px rgba(17, 24, 39, 0.12);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+.mc-btn.primary {
+  background: linear-gradient(135deg, #c4f1f9, #a5b4fc);
+  border-color: rgba(255, 255, 255, 0.8);
+}
+.mc-btn.ghost {
+  background: rgba(255, 255, 255, 0.72);
+}
+.mc-title {
+  font-weight: 900;
+  display: block;
+}
+.mc-sub {
+  color: rgba(17, 24, 39, 0.7);
+  font-size: 12px;
+  display: block;
+  margin-top: 2px;
+}
+
 .cta-button {
   position: fixed;
   right: 18px;
@@ -259,5 +324,11 @@ kbd {
     left: 12px;
     right: 12px;
     justify-content: center;
+  }
+  .mobile-controls {
+    display: grid;
+  }
+  .wrap {
+    padding-bottom: 96px; /* 모바일 컨트롤 공간 */
   }
 }

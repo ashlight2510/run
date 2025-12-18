@@ -2,7 +2,10 @@
 <html lang="ko">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
     <title>토스산타 빡쳐서 만든 공룡 달리기 게임 | Dino 러너 랭킹</title>
     <meta
       name="description"
@@ -82,6 +85,14 @@
           <div class="overlay-card">
             <div class="overlay-title" id="overlayTitle">대기 중</div>
             <div class="overlay-sub" id="overlaySub">Space / ↑ 로 시작</div>
+            <div class="overlay-cta">
+              <button id="startBtn" class="start-btn" type="button">
+                시작하기
+              </button>
+              <div class="start-hint" id="startHint">
+                모바일은 화면 탭으로도 시작/점프할 수 있어요
+              </div>
+            </div>
             <div class="overlay-help">
               <div><kbd>Space</kbd> / <kbd>↑</kbd> 점프</div>
               <div><kbd>↓</kbd> 빠르게 내려오기</div>
@@ -145,6 +156,18 @@
         <span>토스산타 빡쳐서 만든 게임</span>
       </footer>
     </main>
+
+    <!-- Mobile Controls -->
+    <div class="mobile-controls" aria-label="모바일 조작 버튼">
+      <button id="btnDuck" class="mc-btn ghost" type="button">
+        <span class="mc-title">웅크리기</span>
+        <span class="mc-sub">누르고 있기</span>
+      </button>
+      <button id="btnJump" class="mc-btn primary" type="button">
+        <span class="mc-title">점프</span>
+        <span class="mc-sub">탭</span>
+      </button>
+    </div>
     <a
       class="cta-button"
       href="https://funnyfunny.cloud/"
