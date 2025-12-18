@@ -1,0 +1,19 @@
+{
+  "name": "토스산타 빡쳐서 만든 게임",
+  "short_name": "화난산타",
+  "start_url": "https://run.funnyfunny.cloud/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "lang": "ko-KR",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
+
+

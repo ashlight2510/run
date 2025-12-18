@@ -6,6 +6,12 @@
 
 - `index.html`을 더블클릭해서 브라우저(크롬 권장)로 열면 바로 실행됩니다.
 
+## SEO 설정(배포 시)
+
+현재 배포 도메인: `https://run.funnyfunny.cloud/`
+
+- 구글 서치콘솔에 사이트 등록할 거면 **sitemap**으로 `https://run.funnyfunny.cloud/sitemap.xml` 을 제출하면 됩니다.
+
 ## 조작
 
 - 시작/점프: `Space` 또는 `↑` (터치/클릭도 점프)
