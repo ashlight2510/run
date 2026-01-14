@@ -103,16 +103,25 @@
 </head>
   <body><main class="wrap">
       <header class="topbar">
-        <div class="title">토스산타 빡쳐서 만든 게임</div>
+        <div class="title-wrap">
+          <div class="title" data-i18n="title">토스산타 빡쳐서 만든 게임</div>
+          <div class="lang-switch" role="tablist" aria-label="Language switcher">
+            <button type="button" data-lang="ko" class="active">한국어</button>
+            <button type="button" data-lang="en">English</button>
+          </div>
+        </div>
         <div class="hud">
           <div class="hud-item">
-            <span class="label">SCORE</span> <span id="score">0</span>
+            <span class="label" data-i18n="labelScore">SCORE</span>
+            <span id="score">0</span>
           </div>
           <div class="hud-item">
-            <span class="label">BEST</span> <span id="best">0</span>
+            <span class="label" data-i18n="labelBest">BEST</span>
+            <span id="best">0</span>
           </div>
           <div class="hud-item">
-            <span class="label">SPEED</span> <span id="speed">1.00</span>
+            <span class="label" data-i18n="labelSpeed">SPEED</span>
+            <span id="speed">1.00</span>
           </div>
         </div>
       </header>
@@ -132,20 +141,34 @@
               </div>
             </div>
             <div class="overlay-help">
-              <div><kbd>Space</kbd> / <kbd>↑</kbd> 점프</div>
-              <div><kbd>↓</kbd> 빠르게 내려오기</div>
-              <div><kbd>R</kbd> 재시작</div>
+              <div data-i18n-html="helpJump">
+                <kbd>Space</kbd> / <kbd>↑</kbd> 점프
+              </div>
+              <div data-i18n-html="helpDuck">
+                <kbd>↓</kbd> 빠르게 내려오기
+              </div>
+              <div data-i18n-html="helpRestart">
+                <kbd>R</kbd> 재시작
+              </div>
             </div>
             <div class="leaderboard">
               <div class="leaderboard-head">
-                <div class="leaderboard-title">랭킹 (Top 10)</div>
-                <div class="tabs" role="tablist" aria-label="랭킹 기간 선택">
+                <div class="leaderboard-title" data-i18n="leaderboardTitle">
+                  랭킹 (Top 10)
+                </div>
+                <div
+                  class="tabs"
+                  role="tablist"
+                  aria-label="랭킹 기간 선택"
+                  data-i18n-aria="leaderboardTabsAria"
+                >
                   <button
                     class="tab active"
                     id="tabAll"
                     type="button"
                     role="tab"
                     aria-selected="true"
+                    data-i18n="tabAll"
                   >
                     전체
                   </button>
@@ -155,6 +178,7 @@
                     type="button"
                     role="tab"
                     aria-selected="false"
+                    data-i18n="tabDaily"
                   >
                     일일
                   </button>
@@ -164,10 +188,16 @@
                     type="button"
                     role="tab"
                     aria-selected="false"
+                    data-i18n="tabWeekly"
                   >
                     주간
                   </button>
-                  <button id="refreshBoard" class="btn" type="button">
+                  <button
+                    id="refreshBoard"
+                    class="btn"
+                    type="button"
+                    data-i18n="refresh"
+                  >
                     새로고침
                   </button>
                 </div>
@@ -179,8 +209,14 @@
                   class="input"
                   maxlength="16"
                   placeholder="닉네임 (최대 16자)"
+                  data-i18n-placeholder="namePlaceholder"
                 />
-                <button id="submitScore" class="btn primary" type="button">
+                <button
+                  id="submitScore"
+                  class="btn primary"
+                  type="button"
+                  data-i18n="submitScore"
+                >
                   점수 등록
                 </button>
               </div>
@@ -191,19 +227,19 @@
       </section>
 
       <footer class="footer">
-        <span>토스산타 빡쳐서 만든 게임</span>
+        <span data-i18n="footer">토스산타 빡쳐서 만든 게임</span>
       </footer>
     </main>
 
     <!-- Mobile Controls -->
     <div class="mobile-controls" aria-label="모바일 조작 버튼">
       <button id="btnDuck" class="mc-btn ghost" type="button">
-        <span class="mc-title">웅크리기</span>
-        <span class="mc-sub">누르고 있기</span>
+        <span class="mc-title" data-i18n="mobileDuckTitle">웅크리기</span>
+        <span class="mc-sub" data-i18n="mobileDuckSub">누르고 있기</span>
       </button>
       <button id="btnJump" class="mc-btn primary" type="button">
-        <span class="mc-title">점프</span>
-        <span class="mc-sub">탭</span>
+        <span class="mc-title" data-i18n="mobileJumpTitle">점프</span>
+        <span class="mc-sub" data-i18n="mobileJumpSub">탭</span>
       </button>
     </div>
     <a
@@ -213,8 +249,9 @@
       rel="noopener noreferrer"
       role="button"
       aria-label="다른 서비스 보기 (새 창)"
+      data-i18n-aria="ctaAria"
     >
-      <span class="cta-label">다른 서비스 보기</span>
+      <span class="cta-label" data-i18n="ctaLabel">다른 서비스 보기</span>
       <span aria-hidden="true" class="cta-arrow">↗</span>
     </a>
     <!-- Supabase 설정(사용자 입력) -->

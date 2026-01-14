@@ -22,6 +22,189 @@
   const $startBtn = document.getElementById("startBtn");
   const $startHint = document.getElementById("startHint");
 
+  const translations = {
+    ko: {
+      metaTitle: "토스산타 빡쳐서 만든 공룡 달리기 게임 | Dino 러너 랭킹",
+      title: "토스산타 빡쳐서 만든 게임",
+      labelScore: "점수",
+      labelBest: "최고",
+      labelSpeed: "속도",
+      overlayReadyTitle: "대기 중",
+      overlayReadySub: "탭/Space/↑ 로 시작",
+      overlayGameOverTitle: "게임 오버",
+      overlayGameOverSub: "탭/Space/↑ 로 다시하기",
+      startBtnStart: "시작하기",
+      startBtnRestart: "다시하기",
+      startHintReady: "모바일은 화면 탭으로도 시작/점프할 수 있어요",
+      startHintGameOver: "점수 등록은 죽었을 때만 보여요",
+      helpJump: "<kbd>Space</kbd> / <kbd>↑</kbd> 점프",
+      helpDuck: "<kbd>↓</kbd> 빠르게 내려오기",
+      helpRestart: "<kbd>R</kbd> 재시작",
+      leaderboardTitle: "랭킹 (Top 10)",
+      leaderboardTabsAria: "랭킹 기간 선택",
+      tabAll: "전체",
+      tabDaily: "일일",
+      tabWeekly: "주간",
+      refresh: "새로고침",
+      namePlaceholder: "닉네임 (최대 16자)",
+      submitScore: "점수 등록",
+      noRecords: "아직 기록이 없어요",
+      anon: "익명",
+      hintNoSupabase:
+        "Supabase 설정이 없어서 랭킹 기능이 비활성화되어 있어요.",
+      hintLoading: "랭킹 불러오는 중...",
+      hintLoadFail: "랭킹 로드 실패: {msg}",
+      hintNoSupabaseSubmit:
+        "Supabase 설정이 없어서 점수 등록이 불가능해요.",
+      hintNeedName: "닉네임을 입력해주세요.",
+      hintSubmitting: "점수 등록 중...",
+      hintSubmitFail: "등록 실패: {msg}",
+      hintSubmitOk: "등록 완료! 랭킹을 갱신했어요.",
+      footer: "토스산타 빡쳐서 만든 게임",
+      mobileDuckTitle: "웅크리기",
+      mobileDuckSub: "누르고 있기",
+      mobileJumpTitle: "점프",
+      mobileJumpSub: "탭",
+      ctaLabel: "다른 서비스 보기",
+      ctaAria: "다른 서비스 보기 (새 창)",
+    },
+    en: {
+      metaTitle: "Angry Santa Dino Runner | Dino-ish Leaderboard",
+      title: "Angry Santa Dino Runner",
+      labelScore: "SCORE",
+      labelBest: "BEST",
+      labelSpeed: "SPEED",
+      overlayReadyTitle: "Ready",
+      overlayReadySub: "Tap / Space / ↑ to start",
+      overlayGameOverTitle: "Game Over",
+      overlayGameOverSub: "Tap / Space / ↑ to retry",
+      startBtnStart: "Start",
+      startBtnRestart: "Restart",
+      startHintReady: "On mobile, tap to start/jump",
+      startHintGameOver: "Score submission appears after game over",
+      helpJump: "<kbd>Space</kbd> / <kbd>↑</kbd> Jump",
+      helpDuck: "<kbd>↓</kbd> Fast drop",
+      helpRestart: "<kbd>R</kbd> Restart",
+      leaderboardTitle: "Leaderboard (Top 10)",
+      leaderboardTabsAria: "Leaderboard period",
+      tabAll: "All",
+      tabDaily: "Daily",
+      tabWeekly: "Weekly",
+      refresh: "Refresh",
+      namePlaceholder: "Nickname (max 16)",
+      submitScore: "Submit score",
+      noRecords: "No scores yet",
+      anon: "Anonymous",
+      hintNoSupabase: "Supabase is not configured, leaderboard is disabled.",
+      hintLoading: "Loading leaderboard...",
+      hintLoadFail: "Failed to load: {msg}",
+      hintNoSupabaseSubmit:
+        "Supabase is not configured, score submit is disabled.",
+      hintNeedName: "Enter a nickname.",
+      hintSubmitting: "Submitting score...",
+      hintSubmitFail: "Submit failed: {msg}",
+      hintSubmitOk: "Submitted! Leaderboard updated.",
+      footer: "Angry Santa Dino Runner",
+      mobileDuckTitle: "Duck",
+      mobileDuckSub: "Hold",
+      mobileJumpTitle: "Jump",
+      mobileJumpSub: "Tap",
+      ctaLabel: "View other services",
+      ctaAria: "View other services (new tab)",
+    },
+  };
+
+  const defaultLang = "en";
+  const supportedLangs = ["ko", "en"];
+  let currentLang = defaultLang;
+
+  function getPack() {
+    return translations[currentLang] || translations.ko;
+  }
+
+  function t(key, vars = {}) {
+    const pack = getPack();
+    const template = pack[key] ?? translations.ko[key] ?? key;
+    if (typeof template !== "string") return template;
+    return template.replace(/\{(\w+)\}/g, (_, token) =>
+      vars[token] !== undefined ? vars[token] : `{${token}}`
+    );
+  }
+
+  function getLocale() {
+    return currentLang === "en" ? "en-US" : "ko-KR";
+  }
+
+  function applyTranslations() {
+    document.title = t("metaTitle");
+    document.documentElement.lang = currentLang;
+    document.querySelectorAll("[data-i18n]").forEach((el) => {
+      el.textContent = t(el.dataset.i18n);
+    });
+    document.querySelectorAll("[data-i18n-html]").forEach((el) => {
+      const key = el.dataset.i18nHtml;
+      const value = t(key);
+      if (value && value !== key) {
+        el.innerHTML = value;
+      }
+    });
+    document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+      el.setAttribute("placeholder", t(el.dataset.i18nPlaceholder));
+    });
+    document.querySelectorAll("[data-i18n-aria]").forEach((el) => {
+      el.setAttribute("aria-label", t(el.dataset.i18nAria));
+    });
+  }
+
+  function setLang(lang, options = {}) {
+    const nextLang = translations[lang] ? lang : defaultLang;
+    currentLang = nextLang;
+    localStorage.setItem("preferredLang", nextLang);
+    document.querySelectorAll(".lang-switch button").forEach((button) => {
+      button.classList.toggle("active", button.dataset.lang === nextLang);
+    });
+    applyTranslations();
+    if (state?.gameOver) {
+      setOverlay(true, t("overlayGameOverTitle"), t("overlayGameOverSub"));
+      setStartUiMode("gameover");
+    } else if (!state?.running) {
+      setOverlay(true, t("overlayReadyTitle"), t("overlayReadySub"));
+      setStartUiMode("ready");
+    }
+    if (options.updateUrl) {
+      const url = new URL(window.location.href);
+      url.searchParams.set("lang", nextLang);
+      window.history.replaceState({}, "", url);
+    }
+  }
+
+  function getRegionPreferredLang(fallback = defaultLang) {
+    const intlLocale =
+      typeof Intl === "object" && typeof Intl.DateTimeFormat === "function"
+        ? Intl.DateTimeFormat().resolvedOptions().locale
+        : "";
+    const sources = [
+      ...(navigator.languages || []),
+      navigator.language,
+      navigator.userLanguage,
+      intlLocale,
+    ]
+      .filter(Boolean)
+      .map((locale) => locale.toLowerCase());
+    const hasKorean = sources.some((locale) => locale.startsWith("ko"));
+    return hasKorean ? "ko" : fallback;
+  }
+
+  function detectLang() {
+    const params = new URLSearchParams(window.location.search);
+    const paramLang = params.get("lang");
+    if (supportedLangs.includes(paramLang)) return paramLang;
+    const stored = localStorage.getItem("preferredLang");
+    if (supportedLangs.includes(stored)) return stored;
+    const candidate = getRegionPreferredLang(defaultLang);
+    return supportedLangs.includes(candidate) ? candidate : defaultLang;
+  }
+
   const W = canvas.width;
   const H = canvas.height;
 
@@ -108,17 +291,19 @@
     $board.innerHTML = "";
     if (!rows || rows.length === 0) {
       const li = document.createElement("li");
-      li.innerHTML = `<span class="name">아직 기록이 없어요</span><span class="score">-</span>`;
+      li.innerHTML = `<span class="name">${t(
+        "noRecords"
+      )}</span><span class="score">-</span>`;
       $board.appendChild(li);
       return;
     }
     for (const r of rows) {
       const li = document.createElement("li");
-      const nm = safeName(r.name) || "익명";
+      const nm = safeName(r.name) || t("anon");
       li.innerHTML = `<span class="name">${escapeHtml(
         nm
       )}</span><span class="score">${Number(r.score || 0).toLocaleString(
-        "ko-KR"
+        getLocale()
       )}</span>`;
       $board.appendChild(li);
     }
@@ -169,10 +354,10 @@
   async function fetchLeaderboard(period = getPeriod()) {
     const sb = getSupabase();
     if (!sb) {
-      setHint("Supabase 설정이 없어서 랭킹 기능이 비활성화되어 있어요.");
+      setHint(t("hintNoSupabase"));
       return;
     }
-    setHint("랭킹 불러오는 중...");
+    setHint(t("hintLoading"));
     const period_start = periodStartISO(period);
     const { data, error } = await sb
       .from(LB_TABLE)
@@ -183,7 +368,7 @@
       .order("created_at", { ascending: true })
       .limit(10);
     if (error) {
-      setHint(`랭킹 로드 실패: ${error.message}`);
+      setHint(t("hintLoadFail", { msg: error.message }));
       return;
     }
     setHint("");
@@ -193,17 +378,17 @@
   async function submitScore(scoreValue, period = getPeriod()) {
     const sb = getSupabase();
     if (!sb) {
-      setHint("Supabase 설정이 없어서 점수 등록이 불가능해요.");
+      setHint(t("hintNoSupabaseSubmit"));
       return;
     }
     const nm = safeName($playerName?.value || "");
     if (!nm) {
-      setHint("닉네임을 입력해주세요.");
+      setHint(t("hintNeedName"));
       $playerName?.focus?.();
       return;
     }
     const score = Math.max(0, Number(scoreValue) | 0);
-    setHint("점수 등록 중...");
+    setHint(t("hintSubmitting"));
     const period_start = periodStartISO(period);
     const { error } = await sb.from(LB_TABLE).upsert(
       {
@@ -216,10 +401,10 @@
       { onConflict: "period_type,period_start,name", ignoreDuplicates: false }
     );
     if (error) {
-      setHint(`등록 실패: ${error.message}`);
+      setHint(t("hintSubmitFail", { msg: error.message }));
       return;
     }
-    setHint("등록 완료! 랭킹을 갱신했어요.");
+    setHint(t("hintSubmitOk"));
     setName(nm);
     await fetchLeaderboard(period);
   }
@@ -264,7 +449,7 @@
     player.onGround = true;
     player.ducking = false;
     obstacles = [];
-    setOverlay(true, "대기 중", "탭/Space/↑ 로 시작");
+    setOverlay(true, t("overlayReadyTitle"), t("overlayReadySub"));
     setStartUiMode("ready");
     syncHud();
     draw(0);
@@ -424,7 +609,7 @@
       writeBest(best);
     }
     syncHud();
-    setOverlay(true, "게임 오버", "탭/Space/↑ 로 다시하기");
+    setOverlay(true, t("overlayGameOverTitle"), t("overlayGameOverSub"));
     setStartUiMode("gameover");
   }
 
@@ -432,12 +617,14 @@
     // mode: "ready" | "running" | "gameover"
     const submitRow = document.querySelector(".submit-row");
     if (submitRow) submitRow.style.display = mode === "gameover" ? "grid" : "none";
-    if ($startBtn) $startBtn.textContent = mode === "gameover" ? "다시하기" : "시작하기";
+    if ($startBtn)
+      $startBtn.textContent =
+        mode === "gameover" ? t("startBtnRestart") : t("startBtnStart");
     if ($startHint) {
       $startHint.textContent =
         mode === "gameover"
-          ? "점수 등록은 죽었을 때만 보여요"
-          : "모바일은 화면 탭으로도 시작/점프할 수 있어요";
+          ? t("startHintGameOver")
+          : t("startHintReady");
     }
   }
 
@@ -589,6 +776,14 @@
   $submitScore?.addEventListener("click", () =>
     submitScore(state.gameOver ? state.finalScore : state.score | 0)
   );
+
+  document.querySelectorAll(".lang-switch button").forEach((button) => {
+    button.addEventListener("click", () => {
+      setLang(button.dataset.lang, { updateUrl: true });
+    });
+  });
+
+  setLang(detectLang(), { updateUrl: false });
 
   reset();
   // 탭/기간 선택
