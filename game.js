@@ -21,6 +21,11 @@
   const $btnDuck = document.getElementById("btnDuck");
   const $startBtn = document.getElementById("startBtn");
   const $startHint = document.getElementById("startHint");
+  const $overlayAd = document.getElementById("overlayAd");
+
+  const RESTART_DELAY_MS = 2000;
+  let restartUnlockAt = 0;
+  let restartTimer = null;
 
   const translations = {
     ko: {
@@ -37,6 +42,7 @@
       startBtnRestart: "다시하기",
       startHintReady: "모바일은 화면 탭으로도 시작/점프할 수 있어요",
       startHintGameOver: "점수 등록은 죽었을 때만 보여요",
+      startHintDelay: "잠시 후 다시하기 버튼이 활성화됩니다",
       helpJump: "<kbd>Space</kbd> / <kbd>↑</kbd> 점프",
       helpDuck: "<kbd>↓</kbd> 빠르게 내려오기",
       helpRestart: "<kbd>R</kbd> 재시작",
@@ -82,6 +88,7 @@
       startBtnRestart: "Restart",
       startHintReady: "On mobile, tap to start/jump",
       startHintGameOver: "Score submission appears after game over",
+      startHintDelay: "Restart will be available in a moment",
       helpJump: "<kbd>Space</kbd> / <kbd>↑</kbd> Jump",
       helpDuck: "<kbd>↓</kbd> Fast drop",
       helpRestart: "<kbd>R</kbd> Restart",
@@ -443,6 +450,8 @@
     syncHud();
     draw(0);
     setHint("");
+    setOverlayAdVisible(false);
+    unlockRestart();
   }
 
   function start() {
@@ -465,6 +474,44 @@
     else $overlay.classList.add("hidden");
     if (title) $overlayTitle.textContent = title;
     if (sub) $overlaySub.textContent = sub;
+  }
+
+  function setOverlayAdVisible(show) {
+    if (!$overlayAd) return;
+    $overlayAd.style.display = show ? "block" : "none";
+    if (show) loadOverlayAd();
+  }
+
+  function loadOverlayAd() {
+    if (!$overlayAd || $overlayAd.dataset.loaded) return;
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+      $overlayAd.dataset.loaded = "true";
+    } catch {
+      // ignore ad loading errors
+    }
+  }
+
+  function lockRestart() {
+    restartUnlockAt = Date.now() + RESTART_DELAY_MS;
+    if ($startBtn) $startBtn.disabled = true;
+    if ($startHint) $startHint.textContent = t("startHintDelay");
+    if (restartTimer) clearTimeout(restartTimer);
+    restartTimer = setTimeout(() => {
+      if (!state.gameOver) return;
+      if ($startBtn) $startBtn.disabled = false;
+      if ($startHint) $startHint.textContent = t("startHintGameOver");
+    }, RESTART_DELAY_MS);
+  }
+
+  function unlockRestart() {
+    restartUnlockAt = 0;
+    if (restartTimer) clearTimeout(restartTimer);
+    if ($startBtn) $startBtn.disabled = false;
+  }
+
+  function canRestart() {
+    return Date.now() >= restartUnlockAt;
   }
 
   function syncHud() {
@@ -615,6 +662,13 @@
           ? t("startHintGameOver")
           : t("startHintReady");
     }
+    if (mode === "gameover") {
+      setOverlayAdVisible(true);
+      lockRestart();
+    } else {
+      setOverlayAdVisible(false);
+      unlockRestart();
+    }
   }
 
   function draw(t) {
@@ -697,7 +751,10 @@
   window.addEventListener("keydown", (e) => {
     if (e.code === "Space" || e.code === "ArrowUp") {
       e.preventDefault();
-      if (state.gameOver) restart();
+      if (state.gameOver) {
+        if (!canRestart()) return;
+        restart();
+      }
       else jump();
       return;
     }
@@ -719,20 +776,29 @@
   canvas.addEventListener("pointerdown", (e) => {
     // 모바일에서 스크롤/더블탭 줌 방지
     e.preventDefault?.();
-    if (state.gameOver) restart();
+    if (state.gameOver) {
+      if (!canRestart()) return;
+      restart();
+    }
     else jump();
   });
 
   // 오버레이 시작 버튼: 첫 시작은 start(), 게임오버면 restart()
   $startBtn?.addEventListener("click", () => {
-    if (state.gameOver) restart();
+    if (state.gameOver) {
+      if (!canRestart()) return;
+      restart();
+    }
     else start();
   });
 
   // 모바일 버튼: 점프
   $btnJump?.addEventListener("pointerdown", (e) => {
     e.preventDefault?.();
-    if (state.gameOver) restart();
+    if (state.gameOver) {
+      if (!canRestart()) return;
+      restart();
+    }
     else jump();
   });
 
