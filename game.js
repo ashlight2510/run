@@ -24,8 +24,8 @@
 
   const translations = {
     ko: {
-      metaTitle: "토스산타 빡쳐서 만든 공룡 달리기 게임 | Dino 러너 랭킹",
-      title: "토스산타 빡쳐서 만든 게임",
+      metaTitle: "공룡 달리기 게임 | Dino 러너 랭킹",
+      title: "공룡 달리기 게임",
       labelScore: "점수",
       labelBest: "최고",
       labelSpeed: "속도",
@@ -60,7 +60,7 @@
       hintSubmitting: "점수 등록 중...",
       hintSubmitFail: "등록 실패: {msg}",
       hintSubmitOk: "등록 완료! 랭킹을 갱신했어요.",
-      footer: "토스산타 빡쳐서 만든 게임",
+      footer: "공룡 달리기 게임",
       mobileDuckTitle: "웅크리기",
       mobileDuckSub: "누르고 있기",
       mobileJumpTitle: "점프",
@@ -69,8 +69,8 @@
       ctaAria: "다른 서비스 보기 (새 창)",
     },
     en: {
-      metaTitle: "Angry Santa Dino Runner | Dino-ish Leaderboard",
-      title: "Angry Santa Dino Runner",
+      metaTitle: "Dino Runner | Dino-ish Leaderboard",
+      title: "Dino Runner",
       labelScore: "SCORE",
       labelBest: "BEST",
       labelSpeed: "SPEED",
@@ -104,7 +104,7 @@
       hintSubmitting: "Submitting score...",
       hintSubmitFail: "Submit failed: {msg}",
       hintSubmitOk: "Submitted! Leaderboard updated.",
-      footer: "Angry Santa Dino Runner",
+      footer: "Dino Runner",
       mobileDuckTitle: "Duck",
       mobileDuckSub: "Hold",
       mobileJumpTitle: "Jump",
